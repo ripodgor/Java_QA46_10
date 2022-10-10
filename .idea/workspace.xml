@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68d705b3-c8b7-48de-ab15-1aa8210d91d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/netology/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/netology/domain/Radio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/RadioTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/netology/Main.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +36,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_directory_selection": "C:/Users/Rip34/IdeaProjects/Java_QA46_10/src/main/java/ru/netology"
+    "last_directory_selection": "C:/Users/Rip34/IdeaProjects/Java_QA46_10/src/test/java"
   }
 }]]></component>
   <component name="RunAnythingCache">
