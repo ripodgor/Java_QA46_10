@@ -1,0 +1,413 @@
+Index: src/main/java/ru/netology/domain/Radio.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/netology/domain/Radio.java b/src/main/java/ru/netology/domain/Radio.java
+--- a/src/main/java/ru/netology/domain/Radio.java	
++++ b/src/main/java/ru/netology/domain/Radio.java	
+@@ -1,64 +1,103 @@
+ package ru.netology.domain;
+ 
+ public class Radio {
+-    private int radio;
+-    private int volume;
++    private int currentStation = 10;
++    private int maxRadioStation = 10;
++    private int minRadioStation = 0;
++    private int currentVolume;
++    private int maxVolume = 100;
++    private int minVolume = 0;
+ 
+-    public int getRadio() {
++    public Radio() {
++    }
+ 
+-        return radio;
++    public Radio(int currentStation) {
++        this.currentStation = currentStation;
++        maxRadioStation = currentStation - 1;
+     }
+ 
+-    public void setRadio(int radio) {
+-        if (radio < 0) {
+-            return;
++    public int getCurrentStation() {
++        return currentStation;
++    }
++
++    public void setCurrentStation(int currentStation) {
++        if (currentStation > maxRadioStation) {
++            currentStation = minRadioStation;
+         }
+-        if (radio > 9) {
+-            return;
++        if (currentStation < minRadioStation) {
++            currentStation = maxRadioStation;
+         }
+-        this.radio = radio;
++        this.currentStation = currentStation;
+     }
+ 
+-    public void nextRadio() {
+-        if (radio < 9) {
+-            radio++;
++    public void pressNextStation() {
++        if (currentStation >= maxRadioStation) {
++            setCurrentStation(minRadioStation);
+         } else {
+-            radio = 0;
++            setCurrentStation(currentStation + 1);
+         }
+     }
+ 
+-    public void prevRadio() {
+-        if (radio > 0) {
+-            radio--;
++    public void pressPrevStation() {
++        if (currentStation <= minRadioStation) {
++            setCurrentStation(maxRadioStation);
+         } else {
+-            radio = 9;
++            setCurrentStation(currentStation - 1);
+         }
+     }
++
++    public int getMaxRadioStation() {
++        return maxRadioStation;
++    }
++
++    public void setMaxRadioStation(int maxRadioStation) {
++        this.maxRadioStation = maxRadioStation;
++    }
++
++    public int getMinRadioStation() {
++        return minRadioStation;
++    }
++
++    public void setMinRadioStation(int minRadioStation) {
++        this.minRadioStation = minRadioStation;
++    }
+ 
+-    public int getVolume() {
+-        return volume;
++    public int getCurrentVolume() {
++        return currentVolume;
+     }
+ 
+-    public void setVolume(int volume) {
+-        if (volume < 0) {
+-            return;
++    public void setCurrentVolume(int currentVolume) {
++        if (currentVolume > maxVolume) {
++            currentVolume = minVolume;
+         }
+-        if (volume > 10) {
+-            volume = 10;
++        if (currentVolume < minVolume) {
++            currentVolume = maxVolume;
+         }
+-        this.volume = volume;
++        this.currentVolume = currentVolume;
+     }
+ 
+-    public void volumeUp() {
+-        if (volume < 10) {
+-            volume++;
+-        }
++    public int getMaxVolume() {
++        return maxVolume;
++    }
++
++    public void setMaxVolume(int maxVolume) {
++        this.maxVolume = maxVolume;
+     }
+ 
+-    public void volumeDown() {
+-        if (volume > 0) {
+-            volume--;
+-        }
++    public int getMinVolume() {
++        return minVolume;
++    }
++
++    public void setMinVolume(int minVolume) {
++        this.minVolume = minVolume;
+     }
+ 
++    public void pressVolumeUp() {
++        setCurrentVolume(currentVolume + 1);
++
++    }
++
++    public void pressVolumeDown() {
++        setCurrentVolume(currentVolume - 1);
++    }
+ }
+\ No newline at end of file
+Index: src/test/java/ru/netology/domain/RadioTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/ru/netology/domain/RadioTest.java b/src/test/java/ru/netology/domain/RadioTest.java
+--- a/src/test/java/ru/netology/domain/RadioTest.java	
++++ b/src/test/java/ru/netology/domain/RadioTest.java	
+@@ -1,160 +1,145 @@
+-package ru.netology.domain;
+-
+ import org.junit.jupiter.api.Test;
++import ru.netology.domain.Radio;
+ 
+ import static org.junit.jupiter.api.Assertions.*;
+ 
+ class RadioTest {
++    Radio netologyFm = new Radio();
++
++    //тестируем станции
++    @Test
++    public void shouldGetCurrentStation() {
++        netologyFm.setCurrentStation(0);
++        netologyFm.setCurrentStation(-1);
++        netologyFm.setCurrentStation(11);
++        assertEquals(0, netologyFm.getCurrentStation());
++    }
++
+     @Test
+-    void test1RadioNext() {
+-        Radio radio = new Radio();
++    public void shouldPressNextStation() {
++        netologyFm.setCurrentStation(0);
++        netologyFm.pressNextStation();
++        assertEquals(1, netologyFm.getCurrentStation());
+ 
+-        radio.setRadio(0);
+-        radio.nextRadio();
+-        int actual = radio.getRadio();
+-        int expected = 1;
++        netologyFm.setCurrentStation(10);
++        netologyFm.pressNextStation();
++        assertEquals(0, netologyFm.getCurrentStation());
+ 
+-        assertEquals(actual, expected);
++        netologyFm.setCurrentStation(-1);
++        netologyFm.pressNextStation();
++        assertEquals(0, netologyFm.getCurrentStation());
++
++        netologyFm.setCurrentStation(11);
++        netologyFm.pressNextStation();
++        assertEquals(1, netologyFm.getCurrentStation());
+     }
+ 
+     @Test
+-    void test2RadioNext() {
+-        Radio radio = new Radio();
++    public void shouldPressPrevStation() {
++        netologyFm.setCurrentStation(0);
++        netologyFm.pressPrevStation();
++        assertEquals(10, netologyFm.getCurrentStation());
+ 
+-        radio.setRadio(9);
+-        radio.nextRadio();
+-        int actual = radio.getRadio();
+-        int expected = 0;
+-
+-        assertEquals(actual, expected);
++        netologyFm.setCurrentStation(10);
++        netologyFm.pressPrevStation();
++        assertEquals(9, netologyFm.getCurrentStation());
+     }
+ 
+     @Test
+-    void test3RadioNext() {
+-        Radio radio = new Radio();
+-
+-        radio.setRadio(-5);
+-        radio.nextRadio();
+-        int actual = radio.getRadio();
+-        int expected = 1;
+-
+-        assertEquals(actual, expected);
++    public void shouldGetToMaxStation() {
++        assertEquals(10, netologyFm.getMaxRadioStation());
+     }
+ 
+     @Test
+-    void test4RadioNext() {
+-        Radio radio = new Radio();
+-
+-        radio.setRadio(10);
+-        radio.nextRadio();
+-        int actual = radio.getRadio();
+-        int expected = 1;
+-
+-        assertEquals(actual, expected);
++    public void shouldSetMaxStation() {
++        netologyFm.setMaxRadioStation(-1);
++        netologyFm.setMaxRadioStation(0);
++        netologyFm.setMaxRadioStation(11);
++        assertEquals(11, netologyFm.getMaxRadioStation());
+     }
+ 
+     @Test
+-    void test1RadioPrev() {
+-        Radio radio = new Radio();
+-
+-        radio.setRadio(5);
+-        radio.prevRadio();
+-
+-        int actual = radio.getRadio();
+-        int expected = 4;
+-
+-        assertEquals(actual, expected);
++    public void shouldGetToMinStation() {
++        assertEquals(0, netologyFm.getMinRadioStation());
+     }
+ 
+     @Test
+-    void test2RadioPrev() {
+-        Radio radio = new Radio();
+-
+-        radio.setRadio(11);
+-        radio.prevRadio();
+-
+-        int actual = radio.getRadio();
+-        int expected = 9;
+-
+-        assertEquals(actual, expected);
++    public void shouldSetMinStation() {
++        netologyFm.setMinRadioStation(-1);
++        netologyFm.setMinRadioStation(0);
++        netologyFm.setMinRadioStation(11);
++        assertEquals(11, netologyFm.getMinRadioStation());
+     }
+ 
++    //тестируем громкость
+     @Test
+-    void test3RadioPrev() {
+-        Radio radio = new Radio();
++    public void shouldSetCurrentVolume() {
++        netologyFm.setCurrentVolume(101);
++        assertEquals(0, netologyFm.getCurrentVolume());
+ 
+-        radio.setRadio(0);
+-        radio.prevRadio();
++        netologyFm.setCurrentVolume(-1);
++        assertEquals(100, netologyFm.getCurrentVolume());
+ 
+-        int actual = radio.getRadio();
+-        int expected = 9;
+-
+-        assertEquals(actual, expected);
++        netologyFm.setCurrentVolume(8);
++        assertEquals(8, netologyFm.getCurrentVolume());
+     }
+ 
+     @Test
+-    void test4RadioPrev() {
+-        Radio radio = new Radio();
+-
+-        radio.setRadio(10);
+-        radio.prevRadio();
+-
+-        int actual = radio.getRadio();
+-        int expected = 9;
+-
+-        assertEquals(actual, expected);
++    public void shouldGetMinVolume() {
++        assertEquals(0, netologyFm.getMinVolume());
+     }
+ 
+     @Test
+-    void Test1VolumeUp() {
+-        Radio radio = new Radio();
+-
+-        radio.setVolume(5);
+-        radio.volumeUp();
+-
+-        int actual = radio.getVolume();
+-        int expected = 6;
+-
+-        assertEquals(actual, expected);
++    public void shouldGetMaxVolume() {
++        assertEquals(100, netologyFm.getMaxVolume());
+     }
+ 
+     @Test
+-    void Test2VolumeUp() {
+-        Radio radio = new Radio();
+-
+-        radio.setVolume(12);
+-        radio.volumeUp();
+-
+-        int actual = radio.getVolume();
+-        int expected = 10;
+-
+-        assertEquals(actual, expected);
++    public void shouldSetMinVolume() {
++        netologyFm.setMaxVolume(100);
++        netologyFm.setMinVolume(1);
++        assertEquals(1, netologyFm.getMinVolume());
+     }
+ 
+     @Test
+-    void Test1VolumeDown() {
+-        Radio radio = new Radio();
+-
+-        radio.setVolume(3);
+-        radio.volumeDown();
+-
+-        int actual = radio.getVolume();
+-        int expected = 2;
+-
+-        assertEquals(actual, expected);
++    public void shouldSetMaxVolume() {
++        netologyFm.setMinVolume(1);
++        netologyFm.setMaxVolume(101);
++        assertEquals(101, netologyFm.getMaxVolume());
+     }
+ 
+     @Test
+-    void Test2VolumeDown() {
+-        Radio radio = new Radio();
++    public void shouldPressVolumeUp() {
++        netologyFm.setCurrentVolume(4);
++        netologyFm.pressVolumeUp();
++        assertEquals(5, netologyFm.getCurrentVolume());
+ 
+-        radio.setVolume(-5);
+-        radio.volumeDown();
++        netologyFm.setCurrentVolume(100);
++        netologyFm.pressVolumeUp();
++        assertEquals(0, netologyFm.getCurrentVolume());
++    }
+ 
+-        int actual = radio.getVolume();
+-        int expected = 0;
++    @Test
++    public void shouldPressVolumeDown() {
++        netologyFm.setCurrentVolume(4);
++        netologyFm.pressVolumeDown();
++        assertEquals(3, netologyFm.getCurrentVolume());
+ 
+-        assertEquals(actual, expected);
++        netologyFm.setCurrentVolume(0);
++        netologyFm.pressVolumeDown();
++        assertEquals(100, netologyFm.getCurrentVolume());
+     }
+ 
+-}
++    //тестируем конструктор с возможностью задавать количество радиостанций при создании объекта
++    @Test
++    public void shouldCreateStationsWithLimits() {
++        Radio radio = new Radio(1);
++        assertEquals(0, radio.getMaxRadioStation());
++
++        Radio radio1 = new Radio(100);
++        assertEquals(99, radio1.getMaxRadioStation());
++
++        Radio radio2 = new Radio(10);
++        assertEquals(0, radio2.getMinRadioStation());
++    }
++}
+\ No newline at end of file
