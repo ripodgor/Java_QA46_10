@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class RadioTest {
     Radio netologyFm = new Radio();
 
-    //тестируем станции
     @Test
     public void shouldGetCurrentStation() {
         netologyFm.setCurrentStation(0);
@@ -72,7 +71,6 @@ class RadioTest {
         assertEquals(11, netologyFm.getMinRadioStation());
     }
 
-    //тестируем громкость
     @Test
     public void shouldSetCurrentVolume() {
         netologyFm.setCurrentVolume(101);
@@ -131,7 +129,6 @@ class RadioTest {
         assertEquals(100, netologyFm.getCurrentVolume());
     }
 
-    //тестируем конструктор с возможностью задавать количество радиостанций при создании объекта
     @Test
     public void shouldCreateStationsWithLimits() {
         Radio radio = new Radio(1);
